@@ -1,0 +1,7 @@
+remote_theme: just-the-docs/just-the-docs
+color_scheme: "dark"
+title: AsPhiXie
+search_enabled: true
+search:
+  heading_level: 6
+search.button: true
