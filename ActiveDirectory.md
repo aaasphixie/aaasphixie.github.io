@@ -112,7 +112,7 @@ If you have a valid username/password, you can ask the KDC for a TGT. It is trul
 ```bash
 impacket-getTGT 'domain.local/username:password' -dc-ip DC_IP
 ```
-This command will create a .ccache file, which is your TGT allowing you to authenticate against the KDC. Export it on KRB5CCNAME to use it :
+This command will create a .ccache file, which is your TGT allowing you to authenticate against the KDC. Export it on the KRB5CCNAME variable to use it :
 ```bash
 export KRB5CCNAME=/absolute/path/to/user.ccname
 ```
