@@ -41,3 +41,4 @@ In order to keep all the commands you've used, paste this at the end of your .zs
 PS1=$'[`date  +"%d-%b-%y %T"`]%{\033[01;31m%} `ifconfig eth0 2>/dev/null | sed -n 2,2p | cut -d" " -f 10`%{\033[00m%} %{\033[01;34m%}%c%{\033[00m%} > '
 test "$(ps -ocommand= -p $PPID | awk '{print $1}')" == 'script' || (script -f $HOME/.log/$(date +"%d-%b-%y_%H-%M-%S")_shell.log)
 ```
+You can then just cat logs on a terminal, it will print it out pretty well.
