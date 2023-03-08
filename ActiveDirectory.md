@@ -162,9 +162,13 @@ You can get the compiled tools here : https://github.com/r3motecontrol/Ghostpack
 
 ## Misconfigured Certificate Template
 If you find a certificate template with those things, the job is almost done :
+
 -msPKI-Certificates-Name-Flag: ENROLLEE_SUPPLIES_SUBJECT : it means that the user, who is requesting a new certificate based on this certificate template, can request the certificate for another user (like Domain admins)
+
 -PkiExtendedKeyUsage: Client Authentication : it means that the certificate that will be generated based on this certificate template can be used to authenticate to computers in Active Directory
+
 -Enrollment Rights: NT Authority\Authenticated Users or Domains users : it means that any authenticated user in the Active Directory is allowed to request new certificates to be generated based on this certificate template.
+
 So, you can firstly ask a certificate for Administrator, using tools like Certify.exe :
 ```powershell
 ./Certify.exe request /ca:FQDN\CA-NAME /domain:DOMAIN /template:VULNERABLE-TEMPLATE-NAME /altname:ACCOUNT-TO-IMPERSONATE
