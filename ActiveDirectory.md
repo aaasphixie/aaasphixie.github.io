@@ -160,6 +160,11 @@ certipy find -vulnerable -u USER@DOMAIN -p 'PASSWORD' -dc-ip DC_IP
 If it doesn't work, you probably have to do it on a domain-joined machine, using Windows.
 You can get the compiled tools here : https://github.com/r3motecontrol/Ghostpack-CompiledBinaries
 
+Same thing can be done with Certify.exe :
+```powershell
+./Certify.exe find /vulnerable /domain:DOMAIN
+```
+
 ## Misconfigured Certificate Template
 If you find a certificate template with those things, the job is almost done :
 
