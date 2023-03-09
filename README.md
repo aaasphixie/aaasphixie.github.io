@@ -1,4 +1,3 @@
 # Home
 
-Hi there ! I'm Sina, a french cybersecurity auditor and consultant. Here is a cheatsheet of commands that can be used during penetration testing. Enjoy !
-
+Hi there ! I'm Sina, a french cybersecurity auditor and consultant. Here is a cheatsheet of commands that I wrote to remember while doing penetration testing. Enjoy !
