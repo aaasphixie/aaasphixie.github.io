@@ -1,4 +1,4 @@
-# Windows
+# Local Windows Privilege Escalation
 
 ## CVE-2020-1472 : Zero Logon
 PoC based on this link : <https://github.com/dirkjanm/CVE-2020-1472>
